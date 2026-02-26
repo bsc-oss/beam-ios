@@ -1,0 +1,5 @@
+"NSCameraUsageDescription" = "Um Bilder oder Videos aufzunehmen und als Nachricht zu senden, benötigt Beam Zugriff auf die Kamera.";
+"NSFaceIDUsageDescription" = "Face ID wird verwendet um die App zu entsperren.";
+"NSLocationWhenInUseUsageDescription" = "Erlauben Sie den Standortzugriff, damit Beam Ihren Standort teilen kann.";
+"NSMicrophoneUsageDescription" = "Um Sprachnachrichten aufzunehmen und mit Beam zu versenden, wird der Zugriff auf das Mikrofon benötigt.";
+"NSPhotoLibraryUsageDescription" = "Damit können Sie Bilder und Videos in Ihrer Fotobibliothek speichern.";

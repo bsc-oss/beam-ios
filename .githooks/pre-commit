@@ -1,0 +1,26 @@
+#!/bin/bash
+
+export PATH="$PATH:/opt/homebrew/bin"
+
+if ! swiftformat --lint . > /dev/null 2>&1
+then
+  echo "pre-commit: Commit aborted due to SwiftFormat warnings. Please check the automatically generated fixes and try again"
+  swiftformat . > /dev/null 2>&1
+  exit 1
+fi
+
+swift-package-list ElementX.xcodeproj --requires-license --ignore-package compound-ios --ignore-package compound-design-tokens --ignore-package matrix-rich-text-editor-swift --ignore-package element-call-swift --output-type settings-bundle --output-path ElementX/SupportingFiles
+
+# PG_CHANGED - Adds element-x-ios acknowledgement
+cp Tools/AcknowledgementTemplates/element-x-ios.plist ElementX/SupportingFiles/Settings.bundle/Packages/
+/usr/libexec/PlistBuddy -c "Add :PreferenceSpecifiers:1 dict" ElementX/SupportingFiles/Settings.bundle/Acknowledgements.plist
+/usr/libexec/PlistBuddy -c "Add :PreferenceSpecifiers:1:File string 'Packages/element-x-ios'" ElementX/SupportingFiles/Settings.bundle/Acknowledgements.plist
+/usr/libexec/PlistBuddy -c "Add :PreferenceSpecifiers:1:Title string 'Element X iOS'" ElementX/SupportingFiles/Settings.bundle/Acknowledgements.plist
+/usr/libexec/PlistBuddy -c "Add :PreferenceSpecifiers:1:Type string 'PSChildPaneSpecifier'" ElementX/SupportingFiles/Settings.bundle/Acknowledgements.plist
+
+if ! git diff --quiet -- ./ElementX/SupportingFiles/Settings.bundle || [ -n "$(git ls-files --others --exclude-standard -- ./ElementX/SupportingFiles/Settings.bundle)" ]; then
+  echo "pre-commit: Commit aborted due to unstaged changes to the package Acknowledgements."
+  exit 1
+fi
+
+./Tools/Scripts/validate_lfs.sh
