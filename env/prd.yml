@@ -1,0 +1,34 @@
+settings:
+  configs:
+      Release-prd:
+        <<: &PRD_COMMON_PROPERTIES
+          PUSH_GATEWAY_BASE_URL: https://sygnal.beam.belgium.be
+          PG_SERVICE_URL: https://pgservices.beam.belgium.be
+          BUG_REPORT_RAGESHAKE_URL: https://bugreporting.beam.belgium.be/bugreports/submit
+          
+          WEBSITE_DOMAIN: beam.belgium.be
+          ASSOCIATED_DOMAIN: mobile.$(WEBSITE_DOMAIN)
+          OIDC_REDIRECT_URL: https://$(ASSOCIATED_DOMAIN)/callback
+          
+          APP_ICON_SET_NAME: AppIcon
+          APP_ENVIRONMENT: prd
+        APS_ENV: production
+        APP_DISPLAY_NAME: Beam
+        PRODUCTION_APP_NAME: Beam
+        APP_GROUP_IDENTIFIER: group.be.bsc.app
+        BASE_BUNDLE_IDENTIFIER: be.bsc.app
+      Debug-prd:
+        <<: *PRD_COMMON_PROPERTIES
+        APS_ENV: development
+        APP_DISPLAY_NAME: Beam dbg
+        PRODUCTION_APP_NAME: Beam dbg
+        APP_GROUP_IDENTIFIER: group.be.bsc.app.debug
+        BASE_BUNDLE_IDENTIFIER: be.bsc.app.debug
+
+# NSE: Enable notification filtering entitlement for Release-prd builds
+targets:
+  NSE:
+    settings:
+      configs:
+        Release-prd:
+          CODE_SIGN_ENTITLEMENTS: NSE/SupportingFiles/NSE-Release-PRD.entitlements

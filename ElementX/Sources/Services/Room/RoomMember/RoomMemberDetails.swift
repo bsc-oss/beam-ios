@@ -1,0 +1,63 @@
+//
+// Copyright 2026 Belgian Secure Communications (BSC)
+// Copyright 2025 Element Creations Ltd.
+// Copyright 2023-2025 New Vector Ltd.
+//
+// SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial.
+// Please see LICENSE files in the repository root for full details.
+//
+//
+// Modified by Belgian Secure Communications for Beam application on 2026-04-30
+
+import Foundation
+import MatrixRustSDK
+
+// PG_CHANGED
+struct RoomMemberDetails: Identifiable, Hashable, PgUserDescribing {
+    let id: String
+    // PG_CHANGED
+    var userID: String { id }
+    let name: String?
+    // PG_CHANGED
+    var displayName: String? { name }
+    // PG_CHANGED
+    let email: String?
+    let department: String?
+    let function: String?
+    
+    let avatarURL: URL?
+    let permalink: URL?
+    
+    var isInvited: Bool
+    var isIgnored: Bool
+    var isBanned: Bool
+    var isActive: Bool
+
+    let role: RoomRole
+    let powerLevel: RoomPowerLevel
+    
+    func matches(searchQuery: String) -> Bool {
+        guard !searchQuery.isEmpty else { return true }
+        return id.localizedStandardContains(searchQuery) || name?.localizedStandardContains(searchQuery) == true
+    }
+}
+
+extension RoomMemberDetails {
+    init(withProxy proxy: RoomMemberProxyProtocol) {
+        id = proxy.userID
+        name = proxy.displayName
+        avatarURL = proxy.avatarURL
+        permalink = proxy.permalink
+        isActive = proxy.isActive
+        isInvited = proxy.membership == .invite
+        isIgnored = proxy.isIgnored
+        isBanned = proxy.membership == .ban
+        role = proxy.role
+        powerLevel = proxy.powerLevel
+        
+        // PG_CHANGED
+        email = proxy.email
+        department = proxy.department
+        function = proxy.function
+    }
+}

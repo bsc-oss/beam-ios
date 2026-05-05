@@ -1,0 +1,54 @@
+//
+// Copyright 2026 Belgian Secure Communications (BSC)
+// Copyright 2025 Element Creations Ltd.
+// Copyright 2022-2025 New Vector Ltd.
+//
+// SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial
+// Please see LICENSE files in the repository root for full details.
+//
+//
+// Modified by Belgian Secure Communications for Beam application on 2026-04-30
+
+import Foundation
+
+struct AdvancedSettingsScreenViewState: BindableState {
+    var timelineMediaVisibility: TimelineMediaVisibility
+    var hideInviteAvatars: Bool
+    var isPublicRoomCreationEnabled: Bool // PG_CHANGED
+    var isWaitingTimelineMediaVisibility = false
+    var isWaitingHideInviteAvatars = false
+    var bindings: AdvancedSettingsScreenViewStateBindings
+}
+
+// periphery:ignore - subscript are seen as false positives
+@dynamicMemberLookup
+struct AdvancedSettingsScreenViewStateBindings {
+    private let advancedSettings: AdvancedSettingsProtocol
+
+    init(advancedSettings: AdvancedSettingsProtocol) {
+        self.advancedSettings = advancedSettings
+    }
+
+    subscript<Setting>(dynamicMember keyPath: ReferenceWritableKeyPath<AdvancedSettingsProtocol, Setting>) -> Setting {
+        get { advancedSettings[keyPath: keyPath] }
+        set { advancedSettings[keyPath: keyPath] = newValue }
+    }
+}
+
+enum AdvancedSettingsScreenViewAction {
+    case optimizeMediaUploadsChanged
+    case updateTimelineMediaVisibility(TimelineMediaVisibility)
+    case updateHideInviteAvatars(Bool)
+}
+
+protocol AdvancedSettingsProtocol: AnyObject {
+    // PG_CHANGED - allows viewSource TimelineItemMenuAction only on dev builds
+
+    // PG_CHANGED - puts translate TimelineItemMenuAction behind a feature flag (disabled by default)
+    var translateEnabled: Bool { get set }
+    var appAppearance: AppAppearance { get set }
+    var sharePresence: Bool { get set }
+    var optimizeMediaUploads: Bool { get set }
+}
+
+extension AppSettings: AdvancedSettingsProtocol { }

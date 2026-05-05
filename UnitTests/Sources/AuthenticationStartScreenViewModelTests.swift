@@ -1,0 +1,208 @@
+//
+// Copyright 2026 Belgian Secure Communications (BSC)
+// Copyright 2025 Element Creations Ltd.
+// Copyright 2022-2025 New Vector Ltd.
+//
+// SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial.
+// Please see LICENSE files in the repository root for full details.
+//
+//
+// Modified by Belgian Secure Communications for Beam application on 2026-04-30
+
+@testable import ElementX
+import MatrixRustSDKMocks
+import Testing
+import UIKit
+
+@MainActor
+final class AuthenticationStartScreenViewModelTests {
+    var clientFactory: AuthenticationClientFactoryMock!
+    var client: ClientSDKMock!
+    var appSettings: AppSettings!
+    var authenticationService: AuthenticationServiceProtocol!
+    
+    var viewModel: AuthenticationStartScreenViewModel!
+    var context: AuthenticationStartScreenViewModel.Context {
+        viewModel.context
+    }
+    
+    init() {
+        AppSettings.resetAllSettings()
+        appSettings = AppSettings()
+        // These app settings are kept local to the tests on purpose as if they are registered in the
+        // ServiceLocator, the providers override that we apply will break other tests in the suite.
+    }
+    
+    deinit {
+        AppSettings.resetAllSettings()
+    }
+    
+    @Test
+    func initialState() async throws {
+        // Given a view model that has no provisioning parameters.
+        setupViewModel()
+        #expect(authenticationService.homeserver.value.loginMode == .unknown)
+        #expect(client.urlForOidcOidcConfigurationPromptLoginHintDeviceIdAdditionalScopesCallsCount == 0)
+        
+        // When tapping any of the buttons on the screen
+        let actions: [(AuthenticationStartScreenViewAction, AuthenticationStartScreenViewModelAction)] = [
+            (.loginWithQR, .loginWithQR),
+            (.login, .login),
+            (.register, .register),
+            (.reportProblem, .reportProblem)
+        ]
+        
+        for action in actions {
+            let deferred = deferFulfillment(viewModel.actions) { $0 == action.1 }
+            context.send(viewAction: action.0)
+            try await deferred.fulfill()
+            
+            // Then the authentication service should not be used yet.
+            #expect(clientFactory.makeClientHomeserverAddressSessionDirectoriesPassphraseClientSessionDelegateAppSettingsAppHooksCallsCount == 0)
+            #expect(client.urlForOidcOidcConfigurationPromptLoginHintDeviceIdAdditionalScopesCallsCount == 0)
+            #expect(authenticationService.homeserver.value.loginMode == .unknown)
+        }
+    }
+    
+    @Test
+    func provisionedOIDCState() async throws {
+        // Given a view model that has been provisioned with a server that supports OIDC.
+        setupViewModel(provisioningParameters: .init(accountProvider: "company.com", loginHint: "user@company.com"))
+        #expect(authenticationService.homeserver.value.loginMode == .unknown)
+        #expect(client.urlForOidcOidcConfigurationPromptLoginHintDeviceIdAdditionalScopesCallsCount == 0)
+        
+        // When tapping the login button the authentication service should be used and the screen
+        // should request to continue the flow without any server selection needed.
+        let deferred = deferFulfillment(viewModel.actions) { $0.isLoginDirectlyWithOIDC }
+        context.send(viewAction: .login)
+        try await deferred.fulfill()
+        
+        #expect(clientFactory.makeClientHomeserverAddressSessionDirectoriesPassphraseClientSessionDelegateAppSettingsAppHooksCallsCount == 1)
+        #expect(client.urlForOidcOidcConfigurationPromptLoginHintDeviceIdAdditionalScopesCallsCount == 1)
+        #expect(client.urlForOidcOidcConfigurationPromptLoginHintDeviceIdAdditionalScopesReceivedArguments?.prompt == .consent)
+        #expect(client.urlForOidcOidcConfigurationPromptLoginHintDeviceIdAdditionalScopesReceivedArguments?.loginHint == "user@company.com")
+        #expect(authenticationService.homeserver.value.loginMode == .oidc(supportsCreatePrompt: false))
+    }
+    
+    @Test
+    func provisionedPasswordState() async throws {
+        // Given a view model that has been provisioned with a server that does not support OIDC.
+        setupViewModel(provisioningParameters: .init(accountProvider: "company.com", loginHint: "user@company.com"), supportsOIDC: false)
+        #expect(authenticationService.homeserver.value.loginMode == .unknown)
+        #expect(client.urlForOidcOidcConfigurationPromptLoginHintDeviceIdAdditionalScopesCallsCount == 0)
+        
+        // When tapping the login button the authentication service should be used and the screen
+        // should request to continue the flow without any server selection needed.
+        let deferred = deferFulfillment(viewModel.actions) { $0.isLoginDirectlyWithPassword }
+        context.send(viewAction: .login)
+        try await deferred.fulfill()
+        
+        // Then a call to configure service should be made.
+        #expect(clientFactory.makeClientHomeserverAddressSessionDirectoriesPassphraseClientSessionDelegateAppSettingsAppHooksCallsCount == 1)
+        #expect(authenticationService.homeserver.value.loginMode == .password)
+    }
+    
+    @Test
+    func singleProviderOIDCState() async throws {
+        // Given a view model that for an app that only allows the use of a single provider that supports OIDC.
+        setAllowedAccountProviders(["company.com"])
+        setupViewModel()
+        #expect(authenticationService.homeserver.value.loginMode == .unknown)
+        #expect(client.urlForOidcOidcConfigurationPromptLoginHintDeviceIdAdditionalScopesCallsCount == 0)
+        
+        // When tapping the login button the authentication service should be used and the screen
+        // should request to continue the flow without any server selection needed.
+        let deferred = deferFulfillment(viewModel.actions) { $0.isLoginDirectlyWithOIDC }
+        context.send(viewAction: .login)
+        try await deferred.fulfill()
+        
+        #expect(clientFactory.makeClientHomeserverAddressSessionDirectoriesPassphraseClientSessionDelegateAppSettingsAppHooksCallsCount == 1)
+        #expect(client.urlForOidcOidcConfigurationPromptLoginHintDeviceIdAdditionalScopesCallsCount == 1)
+        #expect(client.urlForOidcOidcConfigurationPromptLoginHintDeviceIdAdditionalScopesReceivedArguments?.prompt == .consent)
+        #expect(client.urlForOidcOidcConfigurationPromptLoginHintDeviceIdAdditionalScopesReceivedArguments?.loginHint == nil)
+        #expect(authenticationService.homeserver.value.loginMode == .oidc(supportsCreatePrompt: false))
+    }
+    
+    @Test
+    func singleProviderPasswordState() async throws {
+        // Given a view model that for an app that only allows the use of a single provider that does not support OIDC.
+        setAllowedAccountProviders(["company.com"])
+        setupViewModel(supportsOIDC: false)
+        #expect(authenticationService.homeserver.value.loginMode == .unknown)
+        #expect(client.urlForOidcOidcConfigurationPromptLoginHintDeviceIdAdditionalScopesCallsCount == 0)
+        
+        // When tapping the login button the authentication service should be used and the screen
+        // should request to continue the flow without any server selection needed.
+        let deferred = deferFulfillment(viewModel.actions) { $0.isLoginDirectlyWithPassword }
+        context.send(viewAction: .login)
+        try await deferred.fulfill()
+        
+        // Then a call to configure service should be made.
+        #expect(clientFactory.makeClientHomeserverAddressSessionDirectoriesPassphraseClientSessionDelegateAppSettingsAppHooksCallsCount == 1)
+        #expect(authenticationService.homeserver.value.loginMode == .password)
+    }
+    
+    // MARK: - Helpers
+    
+    private func setupViewModel(provisioningParameters: AccountProvisioningParameters? = nil, supportsOIDC: Bool = true) {
+        // Manually create a configuration as the default homeserver address setting is immutable.
+        client = ClientSDKMock(configuration: .init(oidcLoginURL: supportsOIDC ? "https://account.company.com/authorize" : nil,
+                                                    supportsOIDCCreatePrompt: false,
+                                                    supportsPasswordLogin: true))
+        let configuration = AuthenticationClientFactoryMock.Configuration(homeserverClients: ["company.com": client])
+        
+        clientFactory = AuthenticationClientFactoryMock(configuration: configuration)
+        authenticationService = AuthenticationService(userSessionStore: UserSessionStoreMock(configuration: .init()),
+                                                      encryptionKeyProvider: EncryptionKeyProvider(),
+                                                      clientFactory: clientFactory,
+                                                      appSettings: appSettings,
+                                                      appHooks: AppHooks())
+        
+        viewModel = AuthenticationStartScreenViewModel(authenticationService: authenticationService,
+                                                       provisioningParameters: provisioningParameters,
+                                                       isBugReportServiceEnabled: true,
+                                                       appSettings: appSettings,
+                                                       userIndicatorController: UserIndicatorControllerMock())
+        
+        // Add a fake window in order for the OIDC flow to continue
+        viewModel.context.send(viewAction: .updateWindow(UIWindow()))
+    }
+    
+    private func setAllowedAccountProviders(_ providers: [String]) {
+        appSettings.override(accountProviders: providers,
+                             allowOtherAccountProviders: false,
+                             hideBrandChrome: false,
+                             pushGatewayBaseURL: appSettings.pushGatewayBaseURL,
+                             oidcRedirectURL: appSettings.oidcRedirectURL,
+                             websiteURL: appSettings.websiteURL,
+                             logoURL: appSettings.logoURL,
+                             copyrightURL: appSettings.copyrightURL,
+                             acceptableUseURL: appSettings.acceptableUseURL,
+                             privacyURL: appSettings.privacyURL,
+                             encryptionURL: appSettings.encryptionURL,
+                             deviceVerificationURL: appSettings.deviceVerificationURL,
+                             chatBackupDetailsURL: appSettings.chatBackupDetailsURL,
+                             identityPinningViolationDetailsURL: appSettings.identityPinningViolationDetailsURL,
+                             historySharingDetailsURL: appSettings.historySharingDetailsURL,
+                             // PG_CHANGED - no longer overrides elementWebHosts/accountProvisioningHost here.
+                             bugReportApplicationID: appSettings.bugReportApplicationID,
+                             analyticsTermsURL: appSettings.analyticsTermsURL,
+                             mapTilerConfiguration: appSettings.mapTilerConfiguration)
+    }
+}
+
+extension AuthenticationStartScreenViewModelAction {
+    var isLoginDirectlyWithOIDC: Bool {
+        switch self {
+        case .loginDirectlyWithOIDC: true
+        default: false
+        }
+    }
+    
+    var isLoginDirectlyWithPassword: Bool {
+        switch self {
+        case .loginDirectlyWithPassword: true
+        default: false
+        }
+    }
+}

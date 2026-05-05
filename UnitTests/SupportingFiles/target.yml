@@ -1,0 +1,63 @@
+name: UnitTests
+
+schemes:
+  UnitTests:
+    analyze:
+      config: Debug-dev
+    archive:
+      config: Release-dev
+    build:
+      targets:
+        UnitTests: all
+    profile:
+      config: Release-dev
+    run:
+      config: Debug-dev
+      disableMainThreadChecker: false
+    test:
+      config: Debug-dev
+      disableMainThreadChecker: false
+      gatherCoverageData: true
+      coverageTargets:
+        - ElementX
+      testPlans:
+        - path: UnitTests.xctestplan
+          defaultPlan: true
+
+targets:
+  UnitTests:
+    type: bundle.unit-test
+    platform: iOS
+
+    dependencies:
+    - target: ElementX
+    - package: MatrixRustSDK
+    - package: AsyncAlgorithms
+    - package: Clocks
+    - package: Dynamic
+
+    info:
+      path: ../SupportingFiles/Info.plist
+
+    settings:
+      base:
+        PRODUCT_NAME: UnitTests
+        PRODUCT_BUNDLE_IDENTIFIER: ${BASE_BUNDLE_IDENTIFIER}.unit.tests
+        TARGETED_DEVICE_FAMILY: 1
+        SUPPORTED_PLATFORMS: "iphoneos iphonesimulator"
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: NO
+        SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: NO
+        # PG_CHANGED - updated app name
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/$(APP_NAME).app/$(APP_NAME)
+      debug:
+      release:
+
+    sources:
+    - path: ../Sources
+    - path: ../SupportingFiles
+    - path: ../../DevelopmentAssets
+    - path: ../../ElementX/Sources/Other/Extensions/Publisher.swift
+    - path: ../../ElementX/Sources/Other/Extensions/XCTestCase.swift
+    - path: ../../ElementX/Sources/Other/InfoPlistReader.swift
+    - path: ../../Tools/Scripts/Templates/SimpleScreenExample/Tests/Unit
+    

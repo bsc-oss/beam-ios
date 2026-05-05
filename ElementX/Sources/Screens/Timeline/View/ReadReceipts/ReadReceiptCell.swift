@@ -1,0 +1,92 @@
+//
+// Copyright 2026 Belgian Secure Communications (BSC)
+// Copyright 2025 Element Creations Ltd.
+// Copyright 2023-2025 New Vector Ltd.
+//
+// SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial.
+// Please see LICENSE files in the repository root for full details.
+//
+//
+// Modified by Belgian Secure Communications for Beam application on 2026-04-30
+
+import SwiftUI
+
+struct ReadReceiptCell: View {
+    let readReceipt: ReadReceipt
+    let memberState: RoomMemberState?
+    let mediaProvider: MediaProviderProtocol?
+    
+    private var title: String {
+        // PG_CHANGED
+        memberState?.displayName ?? memberState?.email ?? readReceipt.userID
+    }
+    
+    private var subtitle: String {
+        guard title != readReceipt.userID else {
+            return ""
+        }
+        // PG_CHANGED
+        return memberState?.email ?? readReceipt.userID
+    }
+        
+    var body: some View {
+        HStack(spacing: 12) {
+            LoadableAvatarImage(url: memberState?.avatarURL,
+                                name: memberState?.displayName,
+                                // PG_CHANGED
+                                email: memberState?.email,
+                                contentID: readReceipt.userID,
+                                avatarSize: .user(on: .readReceiptSheet),
+                                mediaProvider: mediaProvider)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(spacing: 12) {
+                    Text(title)
+                        .font(.compound.bodyMDSemibold)
+                        .foregroundColor(.compound.textPrimary)
+                        .lineLimit(1)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    if let formattedTimestamp = readReceipt.formattedTimestamp {
+                        Text(formattedTimestamp)
+                            .font(.compound.bodyXS)
+                            .foregroundColor(.compound.textSecondary)
+                            .lineLimit(1)
+                    }
+                }
+                Text(subtitle)
+                    .font(.compound.bodySM)
+                    .foregroundColor(.compound.textSecondary)
+                    .lineLimit(1)
+            }
+        }
+        .accessibilityElement(children: .combine)
+        .padding(.vertical, 8)
+        .padding(.horizontal, 16)
+    }
+}
+
+struct ReadReceiptCell_Previews: PreviewProvider, TestablePreview {
+    static var previews: some View {
+        ReadReceiptCell(readReceipt: .init(userID: "@test:matrix.org",
+                                           formattedTimestamp: "10:00"),
+                        memberState: .init(displayName: "Test",
+                                           // PG_CHANGED
+                                           email: "test@example.com",
+                                           avatarURL: nil),
+                        mediaProvider: MediaProviderMock(configuration: .init()))
+            .previewDisplayName("No Image")
+        ReadReceiptCell(readReceipt: .init(userID: "@test:matrix.org",
+                                           formattedTimestamp: "10:00"),
+                        memberState: .init(displayName: "Test",
+                                           // PG_CHANGED
+                                           email: "test@example.com",
+                                           avatarURL: .mockMXCUserAvatar),
+                        mediaProvider: MediaProviderMock(configuration: .init()))
+            .previewDisplayName("With Image")
+        ReadReceiptCell(readReceipt: .init(userID: "@test:matrix.org",
+                                           formattedTimestamp: "10:00"),
+                        memberState: nil,
+                        mediaProvider: MediaProviderMock(configuration: .init()))
+            .previewDisplayName("Loading Member")
+    }
+}
