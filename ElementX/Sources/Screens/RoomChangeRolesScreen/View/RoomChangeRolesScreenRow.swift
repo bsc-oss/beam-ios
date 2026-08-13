@@ -1,0 +1,83 @@
+//
+// Copyright 2026 Belgian Secure Communications (BSC)
+// Copyright 2025 Element Creations Ltd.
+// Copyright 2023-2025 New Vector Ltd.
+//
+// SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial.
+// Please see LICENSE files in the repository root for full details.
+//
+//
+// Modified by Belgian Secure Communications for Beam application on 2026-04-30
+
+import Compound
+import MatrixRustSDK
+import SwiftUI
+
+struct RoomChangeRolesScreenRow: View {
+    let member: RoomMemberDetails
+    let mediaProvider: MediaProviderProtocol?
+    
+    let isSelected: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        // PG_CHANGED
+        ListRow(label: .avatar(title: member.primaryInfo,
+                               status: member.isInvited ? L10n.screenRoomMemberListPendingStatus : nil,
+                               // PG_CHANGED
+                               description: member.secondaryInfo,
+                               icon: avatar),
+                kind: .multiSelection(isSelected: isSelected, action: action))
+    }
+    
+    var avatar: LoadableAvatarImage {
+        LoadableAvatarImage(url: member.avatarURL,
+                            name: member.name,
+                            // PG_CHANGED
+                            email: member.email,
+                            contentID: member.id,
+                            avatarSize: .user(on: .startChat),
+                            mediaProvider: mediaProvider)
+    }
+}
+
+struct RoomChangeRolesScreenRow_Previews: PreviewProvider, TestablePreview {
+    static let action: () -> Void = { }
+    
+    static var previews: some View {
+        Form {
+            RoomChangeRolesScreenRow(member: .init(withProxy: RoomMemberProxyMock.mockAlice),
+                                     mediaProvider: MediaProviderMock(configuration: .init()),
+                                     isSelected: true,
+                                     action: action)
+            
+            RoomChangeRolesScreenRow(member: .init(withProxy: RoomMemberProxyMock.mockBob),
+                                     mediaProvider: MediaProviderMock(configuration: .init()),
+                                     isSelected: false,
+                                     action: action)
+            
+            RoomChangeRolesScreenRow(member: .init(withProxy: RoomMemberProxyMock.mockInvited),
+                                     mediaProvider: MediaProviderMock(configuration: .init()),
+                                     isSelected: false,
+                                     action: action)
+            
+            RoomChangeRolesScreenRow(member: .init(withProxy: RoomMemberProxyMock.mockCharlie),
+                                     mediaProvider: MediaProviderMock(configuration: .init()),
+                                     isSelected: true,
+                                     action: action)
+                .disabled(true)
+            
+            RoomChangeRolesScreenRow(member: .init(withProxy: RoomMemberProxyMock(with: .init(userID: "@someone:matrix.org", membership: .join))),
+                                     mediaProvider: MediaProviderMock(configuration: .init()),
+                                     isSelected: false,
+                                     action: action)
+                .disabled(true)
+            
+            RoomChangeRolesScreenRow(member: .init(withProxy: RoomMemberProxyMock(with: .init(userID: "@someone:matrix.org", membership: .join))),
+                                     mediaProvider: MediaProviderMock(configuration: .init()),
+                                     isSelected: false,
+                                     action: action)
+        }
+        .compoundList()
+    }
+}
