@@ -1,0 +1,36 @@
+settings:
+  configs:
+      Release-acc:
+        <<: &ACC_COMMON_PROPERTIES
+          PUSH_GATEWAY_BASE_URL: https://sygnal.beta.beam.belgium.be
+          PG_SERVICE_URL: https://pgservices.beta.beam.belgium.be
+          PG_NOTICE_URL: https://mobile.beta.beam.belgium.be/.well-known
+          PG_MAP_TILE_SERVER_URL: https://map.beta.beam.belgium.be
+          BUG_REPORT_RAGESHAKE_URL: https://bugreporting.beta.beam.belgium.be/bugreports/submit
+          
+          WEBSITE_DOMAIN: beta.beam.belgium.be
+          ASSOCIATED_DOMAIN: mobile.$(WEBSITE_DOMAIN)
+          OIDC_REDIRECT_URL: https://$(ASSOCIATED_DOMAIN)/callback
+          
+          APP_ICON_SET_NAME: AppIcon-Acc
+          APP_ENVIRONMENT: acc
+        APS_ENV: production
+        APP_DISPLAY_NAME: Beam ACC
+        PRODUCTION_APP_NAME: Beam ACC
+        APP_GROUP_IDENTIFIER: group.be.bsc.app.acc
+        BASE_BUNDLE_IDENTIFIER: be.bsc.app.acc
+      Debug-acc:
+        <<: *ACC_COMMON_PROPERTIES
+        APS_ENV: development
+        APP_DISPLAY_NAME: Beam ACC dbg
+        PRODUCTION_APP_NAME: Beam ACC dbg
+        APP_GROUP_IDENTIFIER: group.be.bsc.app.acc.debug
+        BASE_BUNDLE_IDENTIFIER: be.bsc.app.acc.debug
+
+# NSE: Enable notification filtering entitlement for Release-acc builds
+targets:
+  NSE:
+    settings:
+      configs:
+        Release-acc:
+          CODE_SIGN_ENTITLEMENTS: NSE/SupportingFiles/NSE-Release-ACC.entitlements

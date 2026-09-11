@@ -1,0 +1,71 @@
+//
+// Copyright 2026 Belgian Secure Communications (BSC)
+// Copyright 2025 Element Creations Ltd.
+// Copyright 2022-2025 New Vector Ltd.
+//
+// SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial.
+// Please see LICENSE files in the repository root for full details.
+//
+//
+// Modified by Belgian Secure Communications for Beam application on 2026-04-30
+
+import Combine
+import SwiftUI
+
+struct AppLockSetupPINScreenCoordinatorParameters {
+    /// Whether the screen should start in create or unlock mode.
+    /// Specifying confirm here will raise a fatal error.
+    let initialMode: AppLockSetupPINScreenMode
+    // PG_CHANGED: Whether the screen is loaded from the onboarding flow (cannot be cancelled).
+    let isLoadedFromOnboarding: Bool
+    let appLockService: AppLockServiceProtocol
+}
+
+enum AppLockSetupPINScreenCoordinatorAction {
+    /// The user succeeded PIN entry.
+    case complete
+    /// The user cancelled PIN entry.
+    case cancel
+    /// The user failed to remember their PIN to unlock.
+    case forceLogout
+}
+
+final class AppLockSetupPINScreenCoordinator: CoordinatorProtocol {
+    private var viewModel: AppLockSetupPINScreenViewModelProtocol
+    private let actionsSubject: PassthroughSubject<AppLockSetupPINScreenCoordinatorAction, Never> = .init()
+    private var cancellables = Set<AnyCancellable>()
+    
+    var actions: AnyPublisher<AppLockSetupPINScreenCoordinatorAction, Never> {
+        actionsSubject.eraseToAnyPublisher()
+    }
+    
+    init(parameters: AppLockSetupPINScreenCoordinatorParameters) {
+        guard parameters.initialMode != .confirm else { fatalError(".confirm is an invalid initial mode") }
+        
+        viewModel = AppLockSetupPINScreenViewModel(initialMode: parameters.initialMode,
+                                                   // PG_CHANGED
+                                                   isLoadedFromOnboarding: parameters.isLoadedFromOnboarding,
+                                                   appLockService: parameters.appLockService)
+    }
+    
+    func start() {
+        viewModel.actions.sink { [weak self] action in
+            MXLog.info("Coordinator: received view model action: \(action)")
+            
+            guard let self else { return }
+            switch action {
+            case .complete:
+                actionsSubject.send(.complete)
+            case .cancel:
+                actionsSubject.send(.cancel)
+            case .forceLogout:
+                actionsSubject.send(.forceLogout)
+            }
+        }
+        .store(in: &cancellables)
+    }
+        
+    func toPresentable() -> AnyView {
+        AnyView(AppLockSetupPINScreen(context: viewModel.context))
+    }
+}
