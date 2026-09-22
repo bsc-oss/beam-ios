@@ -1,0 +1,29 @@
+settings:
+  configs:
+      Release-tst:
+        <<: &TST_COMMON_PROPERTIES
+          PUSH_GATEWAY_BASE_URL: https://sygnal.testserver.local
+          PG_SERVICE_URL: https://pgservices.testserver.local
+          PG_NOTICE_URL: https://mobilealpha.beta.beam.belgium.be/.well-known
+          PG_MAP_TILE_SERVER_URL: https://map.testserver.local
+          BUG_REPORT_RAGESHAKE_URL: https://bugreporting.testserver.local/bugreports/submit
+          
+          WEBSITE_DOMAIN: beta.beam.belgium.be
+          ASSOCIATED_DOMAIN: mobilealpha.$(WEBSITE_DOMAIN)
+          
+          OIDC_REDIRECT_URL: https://$(ASSOCIATED_DOMAIN)/callback
+          
+          APP_ICON_SET_NAME: AppIcon-Tst
+          APP_ENVIRONMENT: tst
+        APS_ENV: production
+        APP_DISPLAY_NAME: Beam TST
+        PRODUCTION_APP_NAME: Beam TST
+        APP_GROUP_IDENTIFIER: group.be.bsc.app.tst
+        BASE_BUNDLE_IDENTIFIER: be.bsc.app.tst
+      Debug-tst:
+        <<: *TST_COMMON_PROPERTIES
+        APS_ENV: development
+        APP_DISPLAY_NAME: Beam TST dbg
+        PRODUCTION_APP_NAME: Beam TST dbg
+        APP_GROUP_IDENTIFIER: group.be.bsc.app.tst.debug
+        BASE_BUNDLE_IDENTIFIER: be.bsc.app.tst.debug

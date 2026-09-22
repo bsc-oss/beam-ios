@@ -1,0 +1,58 @@
+name: PreviewTests
+
+schemes:
+  PreviewTests:
+    analyze:
+      config: Debug-dev
+    archive:
+      config: Release-dev
+    build:
+      targets:
+        PreviewTests: all
+    profile:
+      config: Release-dev
+    run:
+      config: Debug-dev
+      disableMainThreadChecker: false
+    test:
+      config: Debug-dev
+      disableMainThreadChecker: false
+      gatherCoverageData: true
+      coverageTargets:
+        - ElementX
+      testPlans:
+        - path: PreviewTests.xctestplan
+          defaultPlan: true
+
+targets:
+  PreviewTests:
+    type: bundle.unit-test
+    platform: iOS
+    
+    dependencies:
+    - target: ElementX
+    - package: MatrixRustSDK
+    - package: SnapshotTesting
+
+    info:
+      path: ../SupportingFiles/Info.plist
+
+    settings:
+      base:
+        PRODUCT_NAME: PreviewTests
+        PRODUCT_BUNDLE_IDENTIFIER: ${BASE_BUNDLE_IDENTIFIER}.preview.tests
+        TARGETED_DEVICE_FAMILY: 1
+        SUPPORTED_PLATFORMS: "iphoneos iphonesimulator"
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: NO
+        SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: NO
+        # PG_CHANGED - updated app name
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/$(APP_NAME).app/$(APP_NAME)
+      debug:
+      release:
+
+    sources:
+    - path: ../Sources
+      excludes:
+        - "**/__Snapshots__/**"
+    - path: ../SupportingFiles
+    - path: ../../UnitTests/Sources/TestUtilities/DeferredFulfillment.swift

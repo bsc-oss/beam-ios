@@ -1,0 +1,50 @@
+//
+// Copyright 2026 Belgian Secure Communications (BSC)
+// Copyright 2025 Element Creations Ltd.
+// Copyright 2023-2025 New Vector Ltd.
+//
+// SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial.
+// Please see LICENSE files in the repository root for full details.
+//
+//
+// Modified by Belgian Secure Communications for Beam application on 2026-04-30
+
+import Foundation
+
+extension UserProfileProxy {
+    /// Mocks
+    // PG_CHANGED
+    static var mockAlice: UserProfileProxy {
+        .init(userID: "@alice:matrix.org",
+              displayName: "Alice",
+              avatarURL: "mxc://matrix.org/UcCimidcvpFvWkPzvjXMQPHA",
+              email: "alice@matrix.org",
+              department: "Engineering",
+              function: "Engineer")
+    }
+    
+    // PG_CHANGED: adds a user without displayName and with email
+    static var mockBart: UserProfileProxy {
+        .init(userID: "@bart:matrix.org", avatarURL: "mxc://matrix.org/UcCimidcvpFvWkPzvjXMQPHA", email: "bart@matrix.org")
+    }
+
+    static var mockBob: UserProfileProxy {
+        .init(userID: "@bob:matrix.org", displayName: "Bob", avatarURL: nil)
+    }
+
+    static var mockBobby: UserProfileProxy {
+        .init(userID: "@bobby:matrix.org", displayName: "Bobby", avatarURL: nil)
+    }
+
+    static var mockCharlie: UserProfileProxy {
+        .init(userID: "@charlie:matrix.org", displayName: "Charlie", avatarURL: nil)
+    }
+    
+    static var mockDan: UserProfileProxy {
+        .init(userID: "@dan:matrix.org", displayName: "Dan", avatarURL: .mockMXCUserAvatar)
+    }
+    
+    static var mockVerbose: UserProfileProxy {
+        .init(userID: "@charlie:matrix.org", displayName: "Charlie is the best display name", avatarURL: nil)
+    }
+}

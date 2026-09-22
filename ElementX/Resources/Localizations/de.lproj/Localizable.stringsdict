@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>a11y_digits_entered</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>%1$d Ziffern eingegeben</string>
+			<key>one</key>
+			<string>%1$d Ziffer eingegeben</string>
+			<key>other</key>
+			<string>%1$d Ziffern eingegeben</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>a11y_polls_percent_of_total</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>%1$d Prozent der Gesamtstimmen</string>
+			<key>one</key>
+			<string>%1$d Prozent der Gesamtstimmen</string>
+			<key>other</key>
+			<string>%1$d Prozent der Gesamtstimmen</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>a11y_read_receipts_multiple_with_others</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Gelesen von %1$@</string>
+			<key>one</key>
+			<string>Gelesen von %1$@ und %2$d anderem</string>
+			<key>other</key>
+			<string>Gelesen von %1$@ und %2$d anderen</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>common_many_members</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>%d Mitglieder</string>
+			<key>one</key>
+			<string>%d Mitglied</string>
+			<key>other</key>
+			<string>%d Mitglieder</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>common_member_count</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>%1$d Mitglieder</string>
+			<key>one</key>
+			<string>%1$d Mitglied</string>
+			<key>other</key>
+			<string>%1$d Mitglieder</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>common_poll_votes_count</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>%d Stimmen</string>
+			<key>one</key>
+			<string>%d Stimme</string>
+			<key>other</key>
+			<string>%d Stimmen</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>common_replies</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>%1$d Antworten</string>
+			<key>one</key>
+			<string>%1$d Antwort</string>
+			<key>other</key>
+			<string>%1$d Antworten</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>common_rooms</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Keine Gruppen</string>
+			<key>one</key>
+			<string>%1$d Gruppe</string>
+			<key>other</key>
+			<string>%1$d Gruppen</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>common_selected_count</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%1$d ausgewählt</string>
+			<key>other</key>
+			<string>%1$d ausgewählt</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>common_spaces</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Keine Communitys</string>
+			<key>one</key>
+			<string>%1$d Community</string>
+			<key>other</key>
+			<string>%1$d Communitys</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>notification_compat_summary_line_for_room</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>%1$@: %2$d Nachrichten</string>
+			<key>one</key>
+			<string>%1$@: %2$d Nachricht</string>
+			<key>other</key>
+			<string>%1$@: %2$d Nachrichten</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>notification_compat_summary_title</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>keine Benachrichtigungen</string>
+			<key>one</key>
+			<string>%d Benachrichtigung</string>
+			<key>other</key>
+			<string>%d Benachrichtigungen</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>notification_fallback_n_content</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>Sie haben %d neue Nachricht.</string>
+			<key>other</key>
+			<string>Sie haben %d neue Nachrichten.</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>notification_invitations</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Keine Einladungen</string>
+			<key>one</key>
+			<string>%d Einladung</string>
+			<key>other</key>
+			<string>%d Einladungen</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>notification_new_messages_for_room</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Keine neue Nachrichten</string>
+			<key>one</key>
+			<string>%d neue Nachricht</string>
+			<key>other</key>
+			<string>%d neue Nachrichten</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>notification_unread_notified_messages</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Keine ungelesenen Benachrichtigungen</string>
+			<key>one</key>
+			<string>%d ungelesene Benachrichtigungen</string>
+			<key>other</key>
+			<string>%d ungelesene Benachrichtigungen</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>notification_unread_notified_messages_in_room_rooms</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Keine Gruppen</string>
+			<key>one</key>
+			<string>%d Gruppe</string>
+			<key>other</key>
+			<string>%d Gruppen</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>screen_advanced_settings_live_location_update_distance</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>Alle %1$d Meter</string>
+			<key>other</key>
+			<string>Alle %1$d Meter</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>screen_app_lock_subtitle</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Sie haben keine Versuche zum Entsperren übrig</string>
+			<key>one</key>
+			<string>Sie haben noch %1$d Versuch zum Entsperren</string>
+			<key>other</key>
+			<string>Sie haben noch %1$d Versuche zum Entsperren</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>screen_app_lock_subtitle_wrong_pin</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Falsche PIN. Sie haben keine Versuche mehr</string>
+			<key>one</key>
+			<string>Falsche PIN. Sie haben noch %1$d Versuch</string>
+			<key>other</key>
+			<string>Falsche PIN. Sie haben noch %1$d Versuche</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>screen_leave_space_submit</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Keine Gruppen oder Community's ausgewählt</string>
+			<key>one</key>
+			<string>%1$d Gruppe oder Community verlassen</string>
+			<key>other</key>
+			<string>%1$d Gruppen oder Community's verlassen</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>screen_live_location_sheet_subtitle</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%1$d Person</string>
+			<key>other</key>
+			<string>%1$d Personen</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>screen_pinned_timeline_screen_title</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Keine fixierte Nachrichten</string>
+			<key>one</key>
+			<string>%1$d fixierte Nachricht</string>
+			<key>other</key>
+			<string>%1$d fixierte Nachrichten</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>screen_room_member_list_banned_header_title</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Keine verbannten Benutzer</string>
+			<key>one</key>
+			<string>%1$d verbannt</string>
+			<key>other</key>
+			<string>%1$d verbannt</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>screen_room_member_list_header_title</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Keine Mitglieder</string>
+			<key>one</key>
+			<string>%1$d Mitglied</string>
+			<key>other</key>
+			<string>%1$d Mitglieder</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>screen_room_member_list_pending_header_title</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Niemand eingeladen</string>
+			<key>one</key>
+			<string>%1$d eingeladen</string>
+			<key>other</key>
+			<string>%1$d eingeladen</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>screen_room_multiple_knock_requests_title</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>%1$@ möchte dieser Gruppe beitreten</string>
+			<key>one</key>
+			<string>%1$@ +%2$d anderer möchten dieser Gruppe beitreten</string>
+			<key>other</key>
+			<string>%1$@ +%2$d andere möchten dieser Gruppe beitreten</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>screen_room_timeline_reaction_a11y</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>%1$d Mitglieder reagierten mit %2$@</string>
+			<key>one</key>
+			<string>%1$d Mitglied reagierte mit %2$@</string>
+			<key>other</key>
+			<string>%1$d Mitglieder reagierten mit %2$@</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>screen_room_timeline_reaction_including_you_a11y</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Sie reagierten mit %2$@</string>
+			<key>one</key>
+			<string>Sie und %1$d Mitglied reagierten mit %2$@</string>
+			<key>other</key>
+			<string>Sie und %1$d Mitglieder reagierten mit %2$@</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>screen_room_timeline_state_changes</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Keine Gruppenänderungen</string>
+			<key>one</key>
+			<string>%1$d Gruppenänderung</string>
+			<key>other</key>
+			<string>%1$d Gruppenänderungen</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>screen_room_typing_many_members</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>%1$@, %2$@ and %3$d andere</string>
+			<key>one</key>
+			<string>%1$@, %2$@ and %3$d anderer</string>
+			<key>other</key>
+			<string>%1$@, %2$@ and %3$d andere</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>screen_room_typing_notification</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Online</string>
+			<key>one</key>
+			<string>%1$@ schreibt…</string>
+			<key>other</key>
+			<string>%1$@ schreiben…</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>screen_space_remove_rooms_confirmation_title</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>%1$d chat aus %2$@ entfernen</string>
+			<key>other</key>
+			<string>%1$d chats aus %2$@ entfernen</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>troubleshoot_notifications_test_blocked_users_result_some</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Sie haben %1$d Benutzer blockiert.</string>
+			<key>one</key>
+			<string>Sie haben %1$d Benutzer blockiert. Sie erhalten keine Benachrichtigungen für diesen Benutzer.</string>
+			<key>other</key>
+			<string>Sie haben %1$d Benutzer blockiert. Sie erhalten keine Benachrichtigungen für diese Benutzer.</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>troubleshoot_notifications_test_detect_push_provider_success</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>%1$d Push-Dienst gefunden: %2$@</string>
+			<key>one</key>
+			<string>%1$d Push-Dienst gefunden: %2$@</string>
+			<key>other</key>
+			<string>%1$d Push-Dienst gefunden: %2$@</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>troubleshoot_notifications_test_unified_push_success</key>
+	<dict>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>zero</key>
+			<string>Keine Verteiler gefunden: %2$@.</string>
+			<key>one</key>
+			<string>%1$d Verteiler gefunden: %2$@.</string>
+			<key>other</key>
+			<string>%1$d Verteiler gefunden: %2$@.</string>
+		</dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+	</dict>
+	<key>pg_upload_dialog_file_blocked_message</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@COUNT@</string>
+		<key>COUNT</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
+			<key>one</key>
+			<string>Kann diese Datei nicht teilen. Die Datei ist aus Sicherheitsgründen blockiert:</string>
+			<key>other</key>
+			<string>Kann %1$d Dateien nicht teilen. Die folgenden Dateien sind aus Sicherheitsgründen blockiert:</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

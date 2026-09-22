@@ -1,0 +1,229 @@
+//
+// Copyright 2026 Belgian Secure Communications (BSC)
+// Copyright 2025 Element Creations Ltd.
+// Copyright 2022-2025 New Vector Ltd.
+//
+// SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial.
+// Please see LICENSE files in the repository root for full details.
+//
+//
+// Modified by Belgian Secure Communications for Beam application on 2026-04-30
+
+import Foundation
+
+struct InfoPlistReader {
+    private enum Keys {
+        static let appGroupIdentifier = "appGroupIdentifier"
+        static let baseBundleIdentifier = "baseBundleIdentifier"
+        static let keychainAccessGroupIdentifier = "keychainAccessGroupIdentifier"
+        static let bundleShortVersion = "CFBundleShortVersionString"
+        static let bundleDisplayName = "CFBundleDisplayName"
+        static let productionAppName = "productionAppName"
+        static let utExportedTypeDeclarationsKey = "UTExportedTypeDeclarations"
+        static let utTypeIdentifierKey = "UTTypeIdentifier"
+        static let utDescriptionKey = "UTTypeDescription"
+        static let backgroundModes = "UIBackgroundModes" // PG_CHANGED
+        
+        static let bundleURLTypes = "CFBundleURLTypes"
+        static let bundleURLName = "CFBundleURLName"
+        static let bundleURLSchemes = "CFBundleURLSchemes"
+        
+        static let classicAppGroupIdentifier = "classicAppGroupIdentifier"
+        static let classicAppKeychainServiceIdentifier = "classicAppKeychainServiceIdentifier"
+        static let classicAppKeychainAccessGroupIdentifier = "classicAppKeychainAccessGroupIdentifier"
+        static let classicAppDeepLinkURL = "classicAppDeepLinkURL"
+        
+        // PG_CHANGED
+        static let pushGatewayBaseURL = "pushGatewayBaseURL"
+        static let pgServiceUrl = "pgServiceUrl"
+        static let pgNoticeUrl = "pgNoticeUrl"
+        static let pgMapTileServerUrl = "pgMapTileServerUrl"
+        static let bugReportRageshakeURL = "bugReportRageshakeURL"
+        static let oidcRedirectURL = "oidcRedirectURL"
+        static let websiteDomain = "websiteDomain"
+        static let appEnvironment = "appEnvironment"
+    }
+    
+    private enum Values {
+        static let mentionPills = "Mention Pills"
+        static let locationBackgroundMode = "location" // PG_CHANGED
+    }
+    
+    /// Info.plist reader on the bundle object that contains the current executable.
+    static let main = InfoPlistReader(bundle: .main)
+
+    /// Info.plist reader on the bundle object that contains the main app executable.
+    static let app = InfoPlistReader(bundle: .app)
+
+    private let bundle: Bundle
+
+    /// Initializer
+    /// - Parameter bundle: bundle to read values from
+    init(bundle: Bundle) {
+        self.bundle = bundle
+    }
+
+    /// App group identifier set in Info.plist of the target
+    var appGroupIdentifier: String {
+        infoPlistValue(forKey: Keys.appGroupIdentifier)
+    }
+
+    /// Base bundle identifier set in Info.plist of the target
+    var baseBundleIdentifier: String {
+        infoPlistValue(forKey: Keys.baseBundleIdentifier)
+    }
+    
+    /// Keychain access group identifier set in Info.plist of the target
+    var keychainAccessGroupIdentifier: String {
+        infoPlistValue(forKey: Keys.keychainAccessGroupIdentifier)
+    }
+
+    /// Bundle executable of the target
+    var bundleExecutable: String {
+        infoPlistValue(forKey: kCFBundleExecutableKey as String)
+    }
+
+    /// Bundle identifier of the target
+    var bundleIdentifier: String {
+        infoPlistValue(forKey: kCFBundleIdentifierKey as String)
+    }
+
+    /// Bundle short version string of the target
+    var bundleShortVersionString: String {
+        infoPlistValue(forKey: Keys.bundleShortVersion)
+    }
+
+    /// Bundle version of the target
+    var bundleVersion: String {
+        infoPlistValue(forKey: kCFBundleVersionKey as String)
+    }
+
+    /// Bundle display name of the target
+    var bundleDisplayName: String {
+        infoPlistValue(forKey: Keys.bundleDisplayName)
+    }
+    
+    /// The name of the non-X app when it becomes production ready.
+    var productionAppName: String {
+        infoPlistValue(forKey: Keys.productionAppName)
+    }
+    
+    // MARK: - Custom App Scheme
+    
+    var appScheme: String {
+        customSchemeForName("Application")
+    }
+    
+    var elementCallScheme: String {
+        customSchemeForName("Element Call")
+    }
+    
+    // PG_CHANGED
+
+    // MARK: - Background Modes
+
+    /// Whether the target declares the `location` background mode, i.e. whether it is allowed to
+    /// keep receiving location updates once the app has been suspended.
+    var supportsBackgroundLocationUpdates: Bool {
+        let backgroundModes: [String]? = infoPlistValue(forKey: Keys.backgroundModes)
+        return backgroundModes?.contains(Values.locationBackgroundMode) ?? false
+    }
+    
+    // MARK: - Mention Pills
+
+    /// Mention Pills UTType
+    var pillsUTType: String {
+        let exportedTypes: [[String: Any]] = infoPlistValue(forKey: Keys.utExportedTypeDeclarationsKey)
+        guard let mentionPills = exportedTypes.first(where: { $0[Keys.utDescriptionKey] as? String == Values.mentionPills }),
+              let utType = mentionPills[Keys.utTypeIdentifierKey] as? String else {
+            fatalError("Add properly \(Values.mentionPills) exported type into your target's Info.plist")
+        }
+        
+        // The pills type is formed from the baseBundleIdentifier, however weirdly, if a fork sets that with a value
+        // that includes one or more uppercase characters, pill rendering breaks. If we lowercase the type identifier
+        // the bug is fixed, even though the value used in the fork's Info.plist no longer matches the value returned.
+        // Maybe in the future the fork should set their own PILLS_UT_TYPE_IDENTIFIER, but for now this works 🤷‍♂️🤷‍♂️🤷‍♂️
+        return utType.lowercased()
+    }
+    
+    // PG_CHANGED
+    
+    // MARK: - PG
+    
+    var pushGatewayBaseURL: String {
+        infoPlistValue(forKey: Keys.pushGatewayBaseURL)
+    }
+    
+    var pgServiceUrl: String {
+        infoPlistValue(forKey: Keys.pgServiceUrl)
+    }
+    
+    var pgNoticeUrl: String {
+        infoPlistValue(forKey: Keys.pgNoticeUrl)
+    }
+    
+    var pgMapTileServerUrl: String {
+        infoPlistValue(forKey: Keys.pgMapTileServerUrl)
+    }
+    
+    var bugReportRageshakeURL: String {
+        infoPlistValue(forKey: Keys.bugReportRageshakeURL)
+    }
+    
+    var oidcRedirectURL: String {
+        infoPlistValue(forKey: Keys.oidcRedirectURL)
+    }
+    
+    var websiteDomain: String {
+        infoPlistValue(forKey: Keys.websiteDomain)
+    }
+    
+    var appEnvironment: String {
+        infoPlistValue(forKey: Keys.appEnvironment)
+    }
+    
+    // MARK: - Sign in with Classic app
+    
+    var classicAppGroupIdentifier: String? {
+        infoPlistValue(forKey: Keys.classicAppGroupIdentifier)
+    }
+    
+    var classicAppKeychainServiceIdentifier: String? {
+        infoPlistValue(forKey: Keys.classicAppKeychainServiceIdentifier)
+    }
+    
+    var classicAppKeychainAccessGroupIdentifier: String? {
+        infoPlistValue(forKey: Keys.classicAppKeychainAccessGroupIdentifier)
+    }
+    
+    var classicAppDeepLinkURL: URL? {
+        let urlString: String? = infoPlistValue(forKey: Keys.classicAppDeepLinkURL)
+        return urlString.flatMap { URL(string: $0) }
+    }
+    
+    // MARK: - Private
+    
+    @_disfavoredOverload // Make sure optional types default to the optional version below.
+    private func infoPlistValue<T>(forKey key: String) -> T {
+        guard let result = bundle.object(forInfoDictionaryKey: key) as? T else {
+            fatalError("Add \(key) into your target's Info.plst")
+        }
+        return result
+    }
+    
+    private func infoPlistValue<T>(forKey key: String) -> T? {
+        bundle.object(forInfoDictionaryKey: key) as? T
+    }
+    
+    private func customSchemeForName(_ name: String) -> String {
+        let urlTypes: [[String: Any]] = infoPlistValue(forKey: Keys.bundleURLTypes)
+        
+        guard let urlType = urlTypes.first(where: { $0[Keys.bundleURLName] as? String == name }),
+              let urlSchemes = urlType[Keys.bundleURLSchemes] as? [String],
+              let scheme = urlSchemes.first else {
+            fatalError("Invalid custom application scheme configuration")
+        }
+        
+        return scheme
+    }
+}
