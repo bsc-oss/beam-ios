@@ -1,0 +1,64 @@
+//
+// Copyright 2026 Belgian Secure Communications (BSC)
+// Copyright 2025 Element Creations Ltd.
+// Copyright 2024-2025 New Vector Ltd.
+//
+// SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial.
+// Please see LICENSE files in the repository root for full details.
+//
+//
+// Modified by Belgian Secure Communications for Beam application on 2026-09-11
+
+import Combine
+import Foundation
+import MatrixRustSDK
+
+@MainActor
+struct KnockedRoomProxyMockConfiguration {
+    var id = UUID().uuidString
+    var name: String?
+    var avatarURL: URL?
+    var members: [RoomMemberProxyMock] = .allMembers
+}
+
+extension KnockedRoomProxyMock {
+    @MainActor
+    convenience init(_ configuration: KnockedRoomProxyMockConfiguration) {
+        self.init()
+        id = configuration.id
+        info = RoomInfoProxyMock(configuration)
+    }
+}
+
+extension RoomInfoProxyMock {
+    @MainActor convenience init(_ configuration: KnockedRoomProxyMockConfiguration) {
+        self.init()
+        
+        id = configuration.id
+        isEncrypted = false
+        displayName = configuration.name
+        topic = nil
+        
+        avatarURL = configuration.avatarURL
+        
+        isDirect = false
+        isSpace = false
+        successor = nil
+        isFavourite = false
+        canonicalAlias = nil
+        alternativeAliases = []
+        membership = .knocked
+        heroes = []
+        activeMembersCount = configuration.members.filter { $0.membership == .join || $0.membership == .invite }.count
+        joinedMembersCount = configuration.members.filter { $0.membership == .join }.count
+        // PG_CHANGED - upstream no longer assigns the badge counts here; PG keeps hasOtherJoinedMember (consumed by PG invited-room UI)
+        hasOtherJoinedMember = configuration.members.filter { $0.membership == .join && $0.userID != RoomMemberProxyMock.mockMe.userID }.count > 0
+        hasRoomCall = false
+        activeRoomCallParticipants = []
+        pinnedEventIDs = []
+        joinRule = .knock
+        historyVisibility = .shared
+        
+        powerLevels = RoomPowerLevelsProxyMock(.init())
+    }
+}

@@ -1,0 +1,7 @@
+"NSCameraUsageDescription" = "Om foto's of video's te maken en deze als bericht te verzenden, of om video te delen tijdens een oproep, heeft Beam toegang tot de camera nodig.";
+"NSFaceIDUsageDescription" = "Face ID wordt gebruikt om de toegang tot je account te beschermen.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Om je locatie live te delen in chats, is toegang tot je locatie nodig wanneer de app op de achtergrond draait.";
+"NSLocationWhenInUseUsageDescription" = "Hiermee kun je je huidige locatie of plaatsen in de buurt versturen in chats.";
+"NSMicrophoneUsageDescription" = "Om berichten met audio op te nemen en te verzenden, of om te spreken tijdens een oproep, heeft Beam toegang tot de microfoon nodig.";
+"NSMotionUsageDescription" = "Beam kan je bewegingsactiviteit gebruiken om locatiegebaseerde functies te verbeteren.";
+"NSPhotoLibraryUsageDescription" = "Hiermee kun je afbeeldingen en video's opslaan in je fotobibliotheek.";
